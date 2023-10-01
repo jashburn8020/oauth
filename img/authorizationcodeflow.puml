@@ -1,0 +1,39 @@
+@startuml
+
+autonumber "<b>[0]"
+
+skinparam {
+  style strictuml
+  defaultFontName Quicksand
+  sequenceMessageAlign center
+  sequenceGroupBorderThickness 0
+  sequenceGroupFontStyle normal
+}
+
+
+actor U as "User"
+participant C as "Client"
+participant AS as "Authorization\nServer"
+participant RS as "Resource\nServer"
+
+U -> C: Click login link
+
+C -> AS: Authorization code request
+
+AS -->> U: Redirect login/authorization prompt
+
+U -> AS: Authenticate and consent
+
+AS -->> C: Authorization code
+
+C -> AS: Authorization code + client ID + client secret
+
+AS -> AS: Validate
+
+AS -->> C: ID token + access token + (optional) refresh token
+
+C -> RS: Request user data with access token
+
+RS --> C: Requested data
+
+@enduml
